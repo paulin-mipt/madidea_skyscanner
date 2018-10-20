@@ -1,10 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+import json
+
 app = Flask(__name__)
 
 
 def bad_arguments():
     return 'Sorry, bad city set... Go back and try again, please'
 
+
+@app.route('/cities', methods=('GET', 'POST'))
+def cities():
+    with open('static/city_suggest.json') as fin:
+    	return jsonify(json.load(fin))
 
 @app.route('/', methods=('GET', 'POST'))
 def main():
