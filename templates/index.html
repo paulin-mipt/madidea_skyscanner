@@ -2,10 +2,55 @@
 
 {% block content %}
   <form method="POST">
-    <label for="city1">First city</label>
-    <input name="city1" id="city1" required>
-    <label for="city2">Second city</label>
-    <input type="city2" name="city2" id="city2" required>
-    <input type="submit" value="Find your way">
+    <div id="magicsuggest"></div>
+    <div class="row justify-content-center">
+      <input type="hidden" id="hidden-field1">
+      <div class="col col-md-3">
+        <div class="input-group">
+	  <div class="input-group-prepend">
+            <span class="input-group-text" id="city-desc1">First city</span>
+          </div>
+          <input name="city1" id="city1" class="form-control city-autocomplete" autocomplete="off" aria-describedby="city-desc1" required>
+        </div>
+      </div>
+      <div class="col col-md-3">
+        <div class="input-group">
+	  <div class="input-group-prepend">
+            <span class="input-group-text" id="city-desc2">Second city</span>
+          </div>
+          <input name="city2" id="city2" class="form-control city-autocomplete" autocomplete="off" aria-describedby="city-desc2" required>
+        </div>
+      </div>
+      <div class="col col-md-1">
+          <input type="submit" class="btn btn-dark" value="Find your way">
+      </div>
+    </div>
   </form>
+{% endblock %}
+
+{% block ending %}
+<script>
+  $('.city-autocomplete').magicSuggest({
+        allowFreeEntries: false,
+	maxDropHeight: 100,
+        placeholder: '',
+        data: "/cities",
+	selectionPosition: 'bottom',
+        selectionStacked: true,
+        selectionRenderer: function(data){
+            return data.name + ' (<b>' + data.nb + '</b>)';
+        }
+    });
+
+$('.city-autocomplete').autocomplete({
+  messages: {
+    noResults: '',
+    results: function() {}
+  },
+  minLength: 2,
+  maxShowItems: 10,
+  delay: 0,
+  source: "{{ url_for('static', filename='city_suggest.json') }}"
+});
+</script>
 {% endblock %}
