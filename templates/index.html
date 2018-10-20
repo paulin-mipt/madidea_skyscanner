@@ -5,20 +5,12 @@
     <div id="magicsuggest"></div>
     <div class="row justify-content-center">
       <input type="hidden" id="hidden-field1">
-      <div class="col col-md-3">
+      <div class="col col-md-6">
         <div class="input-group">
 	  <div class="input-group-prepend">
-            <span class="input-group-text" id="city-desc1">First city</span>
+            <span class="input-group-text" id="city-desc">Cities of departure</span>
           </div>
-          <input name="city1" id="city1" class="form-control city-autocomplete" autocomplete="off" aria-describedby="city-desc1" required>
-        </div>
-      </div>
-      <div class="col col-md-3">
-        <div class="input-group">
-	  <div class="input-group-prepend">
-            <span class="input-group-text" id="city-desc2">Second city</span>
-          </div>
-          <input name="city2" id="city2" class="form-control city-autocomplete" autocomplete="off" aria-describedby="city-desc2" required>
+          <input name="city" id="city" class="form-control city-autocomplete" autocomplete="off" aria-describedby="city-desc" required>
         </div>
       </div>
       <div class="col col-md-1">
@@ -29,28 +21,23 @@
 {% endblock %}
 
 {% block ending %}
+<script src="{{ url_for('static', filename='js/magicsuggest-min.js') }}"></script>
 <script>
   $('.city-autocomplete').magicSuggest({
         allowFreeEntries: false,
-	maxDropHeight: 100,
+        maxDropHeight: 150,
         placeholder: '',
+        maxSelection: 10,
+        maxSelectionRenderer: "Wow, too many of you!",
+        minChars: 1,
+        required: true,
         data: "/cities",
-	selectionPosition: 'bottom',
+	selectionPosition: 'inner',
         selectionStacked: true,
         selectionRenderer: function(data){
-            return data.name + ' (<b>' + data.nb + '</b>)';
+            return data.name;
         }
     });
 
-$('.city-autocomplete').autocomplete({
-  messages: {
-    noResults: '',
-    results: function() {}
-  },
-  minLength: 2,
-  maxShowItems: 10,
-  delay: 0,
-  source: "{{ url_for('static', filename='city_suggest.json') }}"
-});
 </script>
 {% endblock %}
