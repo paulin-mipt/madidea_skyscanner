@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import json
 
 
 Base = declarative_base()
@@ -56,6 +57,7 @@ def fill_geo(path, apiKey):
     Session = sessionmaker(bind=engine)
     session = Session()
     data = get_data(apiKey)
+    data_for_autosuggest = []
     for cont in data['Continents']:
         print(cont['Name'], cont['Id'])
         for country in cont['Countries']:
@@ -63,14 +65,22 @@ def fill_geo(path, apiKey):
             cntry = Country(country['Id'], country['Name'], country['CurrencyId'])
             session.add(cntry)
             for city in country['Cities']:
+                data_for_autosuggest.append({
+                    'id': len(data_for_autosuggest),
+                    'name': city['Name'],
+                    'ignore': False
+                    })
                 loc = city['Location']
                 lat = float(loc.split(',')[1].strip())
                 lon = float(loc.split(',')[0].strip())
                 cty = City(city['Id'], city['Name'], city['IataCode'], city['CountryId'], lat, lon)
                 session.add(cty)
             session.commit()
+    return data_for_autosuggest
 
 if __name__ == '__main__':
     with open('apiKey.cred', 'r') as cred:
         apiKey = cred.read()
-    fill_geo('skyscraper.sqlite', apiKey)
+    data_for_autosuggest = fill_geo('skyscanner.sqlite', apiKey)
+    with open('city_suggest.json', 'w') as file:
+        file.write(json.dumps(data_for_autosuggest, indent=4))
