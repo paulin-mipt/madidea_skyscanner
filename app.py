@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 import json
 import os
 
+from trips import get_flights
+
 app = Flask(__name__)
 
 
@@ -36,7 +38,9 @@ def render_map(cities):
     cities = cities.split('+')
     if len(cities) < 2:
         return bad_arguments('are you travelling alone? You should add more than 1 city')
-    return render_template('map.html')
+    flights = get_flights(cities)
+    return render_template('map.html',
+                           flights=flights)
 
 
 if __name__ == '__main__':

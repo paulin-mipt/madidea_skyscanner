@@ -1,5 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    Your map here
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+ <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+   integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+   crossorigin=""></script>
+  <script src="static/js/leaflet.curve.js"></script>
+
+
+
+Your map here:
+
+<div id="map-container" class="map center"></div>
+<script type="text/javascript">
+	var flights = JSON.parse('{{flights | tojson}}');
+</script>
+
+<script src="static/js/trips_bezier.js"></script>
+<script src={{ url_for("static", filename="js/trips.js") }}></script>
 {% endblock %}
