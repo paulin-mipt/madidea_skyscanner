@@ -1,10 +1,32 @@
 <!doctype html>
 <title>Meet with friends. Somewhere</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-  <h1>Meet with friends. Somewhere</h1>
-</nav>
-<section class="content">
-  {% block content %}{% endblock %}
-</section>
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/magicsuggest-min.css') }}">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 
+<body>
+<div class="container">
+  <div class="row justify-content-md-center">
+    <h1>Meet with friends. Somewhere</h1>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col col-md-1">
+    </div>
+    <div class="col col-md-10">
+    {% block content %}{% endblock %}
+    </div>
+    <div class="col col-md-1">
+    </div>
+  </div>
+</div>
+
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/magicsuggest-min.js') }}"></script>
+
+{% block ending %}{% endblock %}
+</body>
