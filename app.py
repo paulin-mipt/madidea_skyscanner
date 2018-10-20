@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import json
+import os
 
 app = Flask(__name__)
 
@@ -8,9 +9,14 @@ def bad_arguments(cause):
     return 'Sorry, bad city set... Go back and try again, please!\nPossible fault: {}.'.format(cause)
 
 
+def get_static_path(filename):
+    return os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                        'static', filename)
+
+
 @app.route('/cities', methods=('GET', 'POST'))
 def cities():
-    with open('static/city_suggest.json') as fin:
+    with open(get_static_path('city_suggest.json')) as fin:
     	return jsonify(json.load(fin))
 
 
