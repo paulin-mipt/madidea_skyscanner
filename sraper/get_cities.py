@@ -44,18 +44,18 @@ class City(Base):
         return "<City('%s','%s', '%s')>" % (self.name, self.lat, self.lon)
 
 
-def get_data():
+def get_data(apiKey):
     resp = requests.get('http://partners.api.skyscanner.net/apiservices/geo/v1.0',
-                    params={'apiKey': 'ha812346737381611819258748469243'})
+                    params={'apiKey': apiKey})
     return resp.json()
 
 
-def fill_geo(path):
+def fill_geo(path, apiKey):
     engine = create_engine('sqlite:///' + path, echo=True)
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
-    data = get_data()
+    data = get_data(apiKey)
     for cont in data['Continents']:
         print(cont['Name'], cont['Id'])
         for country in cont['Countries']:
@@ -71,4 +71,6 @@ def fill_geo(path):
             session.commit()
 
 if __name__ == '__main__':
-    fill_geo('skyscraper.sqlite')
+    with open('apiKey.cred', 'r') as cred:
+        apiKey = cred.read()
+    fill_geo('skyscraper.sqlite', apiKey)
