@@ -32,7 +32,7 @@ function addBezierTrip(a_lat, a_lon, b_lat, b_lon, cost, url, color='rgba(255,0,
 
     if (animate && typeof document.getElementById('map-container').animate === "function") { 
         var durationBase = 2000;
-           var duration = Math.sqrt(Math.log(r)) * durationBase;
+        var duration = Math.sqrt(Math.log(r + 1)) * durationBase;
         // Scales the animation duration so that it's related to the line length
         // (but such that the longest and shortest lines' durations are not too different).
            // You may want to use a different scaling factor.
