@@ -9,9 +9,9 @@
    crossorigin=""></script>
   <script src="static/js/leaflet.curve.js"></script>
 
-
-
-Your map here:
+{% if found %}
+ <p>We've found a place! What about coming to {{ destination }} on {{ date  }}?</p>
+ <p>It will cost about {{ cost }} EUR for {{ flights_num }} people.</p>
 
 <div id="map-container" class="map center"></div>
 <script type="text/javascript">
@@ -20,4 +20,8 @@ Your map here:
 
 <script src="static/js/trips_bezier.js"></script>
 <script src={{ url_for("static", filename="js/trips.js") }}></script>
+{% else %}
+<p>We're sorry, your request seems to be too complicated... Tip: don't give up and try nearby airports!</p>
+{% endif %}
+
 {% endblock %}
