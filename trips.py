@@ -9,7 +9,39 @@ def get_skyscanner_url(src, dest, date):
     return '/'.join([BASE_URL, src, dest, ''.join(date.split('-'))[2:]])
 
 
-def get_flights(cities):
+def hackupc_flights(cities):
+    flights = []
+
+    db_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                            'scraper', 'skyscanner.sqlite')
+    engine = db.create_engine('sqlite:///' + db_path)
+    conn = engine.connect()
+    # cities = list(map(lambda x: x.lower(), cities))
+
+    query = (
+        'select city.id, city.lat, city.lon from city ' +
+        'where city.id in (\"{0}\")'.format(
+            '\", \"'.join(cities)
+            )
+    )
+    data = conn.execute(query).fetchall()
+
+    for i in range(len(data)):
+        flight = {}
+        flight['a_lat'] = data[i][1]
+        flight['a_lon'] = data[i][2]
+        flight['b_lat'] = 41.383333
+        flight['b_lon'] = 2.183333
+        flight['cost'] = 'BIENE'
+        flight['url'] = 'https://hackupc.com'
+        flights.append(flight)
+    return '', '', flights
+
+
+def get_flights(cities, hackupc=False):
+    if hackupc:
+        return hackupc_flights(cities)
+
     db_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                             'scraper', 'skyscanner.sqlite')
     engine = db.create_engine('sqlite:///' + db_path)
