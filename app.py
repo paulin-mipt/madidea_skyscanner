@@ -42,8 +42,21 @@ def render_map(cities):
     cost = 0
     for flight in flights:
         cost += flight['cost']
-    found = date is not None and destination is not None and len(flights) == len(cities)
+    if len(cities) > 5:
+        for i in range(len(flights)):
+            flights[i]['b_lat'] = 41.383333
+            flights[i]['b_lon'] = 2.183333
+            flights[i]['cost'] = 'BIENE'
+            flights[i]['url'] = 'https://hackupc.com'
+        return render_template('map_upc.html',
+                           found=True,
+                           flights=flights,
+                           date=date,
+                           cost=cost,
+                           flights_num=len(flights),
+                           destination=destination)
 
+    found = date is not None and destination is not None and len(flights) == len(cities)
     return render_template('map.html',
                            found=found,
                            flights=flights,
