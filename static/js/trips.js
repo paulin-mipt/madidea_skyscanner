@@ -13,7 +13,17 @@ for (var i = 0; i < flights.length; i++) {
     addBezierTrip(
         flight['a_lat'], flight['a_lon'],
         flight['b_lat'], flight['b_lon'],
-        flight['cost']
+        flight['cost'], 
+        color='rgba(0,0,0,0.2)',
+        weight=2
+      )
+
+    addBezierTrip(
+        flight['a_lat'], flight['a_lon'],
+        flight['b_lat'], flight['b_lon'],
+        flight['cost'], 
+        color='rgba(255,0,0,0.9)',
+        weight=3, animate=true
       )
     // var latlngs = [
     //     [flight['a_lat'], flight['a_lon']],
