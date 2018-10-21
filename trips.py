@@ -1,11 +1,13 @@
 import sqlalchemy as db
-from scraper.get_data import City, Country, Quote
 from sqlalchemy.orm import sessionmaker, aliased
+import os
 
 
 def get_flights(cities):
 	# right now I fetch 5 random flights
-	engine = db.create_engine('sqlite:///scraper/skyscanner.sqlite')
+	db_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                        	'scraper', 'skyscanner.sqlite')
+	engine = db.create_engine('sqlite:///' + db_path)
 	conn = engine.connect()
 	query = (
 		'select date, price, cityA.lat, cityA.lon, cityB.lat, cityB.lon from quotes as q ' +
