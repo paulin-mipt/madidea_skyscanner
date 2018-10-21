@@ -10,8 +10,12 @@
   <script src="static/js/leaflet.curve.js"></script>
 
 {% if found %}
- <p>We've found a place! What about coming to {{ destination }} on {{ date  }}?</p>
- <p>It will cost about {{ cost }} EUR for {{ flights_num }} people.</p>
+<div class="row justify-text-center">
+    <div class="col text-center">
+        <p class="lead">We've found a place! What about coming to <b>{{ destination }}</b> on <b>{{ date }}</b>?</p>
+        <p class="lead">It will cost about {{ cost }} EUR for {{ flights_num }} people (it's just <b>{{ cost / flights_num }} EUR</b> per person).</p>
+    </div>
+</div>
 
 <div id="map-container" class="map center"></div>
 <script type="text/javascript">
@@ -21,7 +25,11 @@
 <script src="static/js/trips_bezier.js"></script>
 <script src={{ url_for("static", filename="js/trips.js") }}></script>
 {% else %}
-<p>We're sorry, your request seems to be too complicated... Tip: don't give up and try nearby airports!</p>
+<div class="row justify-text-center">
+    <div class="col text-center">
+        <p class="lead">We're sorry, your request seems to be too complicated... <b>Tip</b>: don't give up and try nearby airports!</p>
+    </div>
+</div>
 {% endif %}
 
 {% endblock %}
