@@ -1,7 +1,7 @@
 // Credit goes to @ryancatalani
 // URL: https://gist.github.com/ryancatalani/6091e50bf756088bf9bf5de2017b32e6#file-leaflet-bezier-curve-js
 
-function addBezierTrip(a_lat, a_lon, b_lat, b_lon, popup) {
+function addBezierTrip(a_lat, a_lon, b_lat, b_lon, popup, color='rgba(255,0,0,0.9)', weight=2, animate=false) {
     var latlngs = [];
 
     var latlng1 = [a_lat, a_lon],
@@ -26,11 +26,11 @@ function addBezierTrip(a_lat, a_lon, b_lat, b_lon, popup) {
     latlngs.push(latlng1, midpointLatLng, latlng2);
 
     var pathOptions = {
-        color: 'rgba(255,0,0,0.9)',
-        weight: 2
+        color: color,
+        weight: weight
     }
 
-    if (typeof document.getElementById('map-container').animate === "function") { 
+    if (animate && typeof document.getElementById('map-container').animate === "function") { 
         var durationBase = 2000;
            var duration = Math.sqrt(Math.log(r)) * durationBase;
         // Scales the animation duration so that it's related to the line length
@@ -38,7 +38,7 @@ function addBezierTrip(a_lat, a_lon, b_lat, b_lon, popup) {
            // You may want to use a different scaling factor.
           pathOptions.animate = {
             duration: duration,
-            iterations: Infinity,
+            iterations: 1,
             easing: 'ease-in-out',
             direction: 'alternate'
         }
