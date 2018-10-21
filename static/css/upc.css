@@ -1,0 +1,27 @@
+body, html {
+    height: 100%;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("../img/upc.png");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: left top;
+}
+
+.map {
+  margin: auto;
+  height: 70vh;
+  position: relative;
+}
+
+.upc {
+	font-family: 'Gotham-Bold';
+	font-size: 40px;
+}

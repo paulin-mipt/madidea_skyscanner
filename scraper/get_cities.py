@@ -27,7 +27,6 @@ def fill_geo(apiKey):
     for k, v in all_cities.items():
         if v > 1:
             dups.append(k)
-    print(dups)
     data_for_autosuggest = []
     for cont in data['Continents']:
         for country in cont['Countries']:
@@ -35,7 +34,6 @@ def fill_geo(apiKey):
                 full_name = city['Name']
                 if full_name in dups:
                     full_name += ' ({})'.format(country['Id'])
-                    print(full_name)
                 data_for_autosuggest.append(
                 {
                 'id': city['Id'],
