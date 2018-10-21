@@ -38,9 +38,19 @@ def render_map(cities):
     cities = cities.split('+')
     if len(cities) < 2:
         return bad_arguments('are you travelling alone? You should add more than 1 city')
-    flights = get_flights(cities)
+    date, destination, flights = get_flights(cities)
+    cost = 0
+    for flight in flights:
+        cost += flight['cost']
+    found = date is not None and destination is not None and len(flights) == len(cities)
+
     return render_template('map.html',
-                           flights=flights)
+                           found=found,
+                           flights=flights,
+                           date=date,
+                           cost=cost,
+                           flights_num=len(flights),
+                           destination=destination)
 
 
 if __name__ == '__main__':
