@@ -2,6 +2,7 @@ import sqlalchemy as db
 from sqlalchemy.orm import sessionmaker, aliased
 import os
 from collections import defaultdict
+from datetime import datetime
 
 
 def get_skyscanner_url(src, dest, date):
@@ -13,7 +14,8 @@ def hackupc_flights(cities):
     flights = []
 
     db_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                            'scraper', 'skyscanner.sqlite')
+                           'skyscanner.sqlite')
+    print(db_path)
     engine = db.create_engine('sqlite:///' + db_path)
     conn = engine.connect()
     # cities = list(map(lambda x: x.lower(), cities))
@@ -43,7 +45,7 @@ def get_flights(cities, hackupc=False):
         return hackupc_flights(cities)
 
     db_path = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                            'scraper', 'skyscanner.sqlite')
+                           'skyscanner.sqlite')
     engine = db.create_engine('sqlite:///' + db_path)
     conn = engine.connect()
     # cities = list(map(lambda x: x.lower(), cities))
@@ -85,6 +87,12 @@ def get_flights(cities, hackupc=False):
     if best_date is None or best_city_id is None:
         return None, None, []
 
+    # Yup, that is some nasty hack
+    best_date_fake = datetime.strftime(
+        datetime.strptime(best_date, '%Y-%m-%d')
+        - datetime.strptime('2018-10-17', '%Y-%m-%d')
+        + datetime.now(), '%Y-%m-%d')
+
     result = []
     for city in cities:
         result.append({
@@ -93,7 +101,7 @@ def get_flights(cities, hackupc=False):
             'b_lat' : coordinates[best_city_id][0],
             'b_lon' : coordinates[best_city_id][1],
             'cost' : groups[best_date][best_city_id][city],
-            'url' : get_skyscanner_url(city, best_city_id, best_date)
+            'url' : get_skyscanner_url(city, best_city_id, best_date_fake)
         })
 
-    return best_date, names.get(best_city_id), result
+    return best_date_fake, names.get(best_city_id), result
